@@ -1,0 +1,653 @@
+:root {
+    /* Light theme */
+    --light-bg: #ffffff;
+    --light-chat-bg: #ffffff;
+    --light-input-bg: #ffffff;
+    --light-text: #1a1a1a;
+    --light-accent: #10a37f;
+    --light-bot-msg: #f7f7f8;
+    --light-user-msg: #ffffff;
+    --light-border: #e5e5e5;
+    --light-hover: #f0f0f0;
+    
+    /* Dark theme */
+    --dark-bg: #343541;
+    --dark-chat-bg: #343541;
+    --dark-input-bg: #40414f;
+    --dark-text: #ececf1;
+    --dark-accent: #10a37f;
+    --dark-bot-msg: #444654;
+    --dark-user-msg: #343541;
+    --dark-border: #565869;
+    --dark-hover: #2d2d3a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Söhne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+body.dark-mode {
+    --bg: var(--dark-bg);
+    --chat-bg: var(--dark-chat-bg);
+    --input-bg: var(--dark-input-bg);
+    --text: var(--dark-text);
+    --accent: var(--dark-accent);
+    --bot-msg: var(--dark-bot-msg);
+    --user-msg: var(--dark-user-msg);
+    --border: var(--dark-border);
+    --hover: var(--dark-hover);
+}
+
+body:not(.dark-mode) {
+    --bg: var(--light-bg);
+    --chat-bg: var(--light-chat-bg);
+    --input-bg: var(--light-input-bg);
+    --text: var(--light-text);
+    --accent: var(--light-accent);
+    --bot-msg: var(--light-bot-msg);
+    --user-msg: var(--light-user-msg);
+    --border: var(--light-border);
+    --hover: var(--light-hover);
+}
+
+#support-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 600px;
+    background-color: var(--bg);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--border);
+    user-select: none;
+    transition: none;
+}
+
+#support-container.closing {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.support-header {
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg);
+    border-bottom: 1px solid var(--border);
+    cursor: move;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+.header-title i {
+    color: var(--accent);
+    pointer-events: none;
+}
+
+.header-actions {
+    display: flex;
+    gap: 6px;
+    pointer-events: auto;
+}
+
+.header-actions button {
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    padding: 6px;
+    font-size: 14px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    opacity: 0.8;
+    z-index: 10;
+}
+
+.header-actions button:hover {
+    background-color: var(--hover);
+    opacity: 1;
+}
+
+.chat-container {
+    flex: 1;
+    overflow-y: auto;
+    background-color: var(--chat-bg);
+}
+
+#chat-messages {
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    width: 100%;
+    padding: 24px 48px 24px 70px;
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.message-content {
+    width: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.message-content p {
+    margin-bottom: 0.75em;
+}
+
+.message-content br {
+    display: block;
+    content: "";
+    margin-top: 0.75em;
+}
+
+.bot-message {
+    background-color: var(--bot-msg);
+}
+
+.bot-message .message-content {
+    animation: fadeIn 0.3s ease;
+}
+
+.user-message {
+    background-color: var(--user-msg);
+}
+
+.user-message .message-content {
+    max-width: 750px;
+}
+
+/* Add avatar styles */
+.message::before {
+    content: '';
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    left: 25px;
+    top: 22px;
+    border-radius: 4px;
+    background-size: 24px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bot-message::before {
+    background-color: var(--accent);
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-13H9v2h6V7zm0 4H9v2h6v-2zm-6 4h6v2H9v-2z"/></svg>');
+}
+
+.user-message::before {
+    background-color: #5436DA;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+}
+
+/* Typing animation */
+.typing-animation {
+    white-space: pre-wrap;
+    padding: 8px 0;
+}
+
+.typing-animation span {
+    opacity: 0;
+    animation: typingDot 1.4s infinite;
+    margin: 0 2px;
+}
+
+.typing-animation span:nth-child(2) { animation-delay: 0.2s; }
+.typing-animation span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingDot {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Update existing animations */
+@keyframes fadeIn {
+    from { 
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Character-by-character typing animation */
+.typewriter {
+    display: inline-block;
+    opacity: 0;
+    white-space: pre-wrap;
+    transition: opacity 0.1s ease;
+}
+
+.typewriter.visible {
+    opacity: 1;
+}
+
+.input-container {
+    padding: 12px 20px;
+    background-color: var(--bg);
+    display: flex;
+    gap: 12px;
+    border-top: 1px solid var(--border);
+    border-bottom: none;
+    position: relative;
+    z-index: 2;
+    align-items: center;
+    min-height: 68px;
+}
+
+#user-input {
+    flex: 1;
+    padding: 12px 50px 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.5;
+    max-height: 200px;
+    min-height: 44px;
+    resize: none;
+    transition: border-color 0.2s ease;
+    box-shadow: 0 0 0 0 var(--accent);
+    overflow-y: auto;
+}
+
+#user-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+}
+
+#send-btn {
+    position: absolute;
+    right: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 32px;
+    width: 32px;
+    background-color: var(--accent);
+    border: none;
+    border-radius: 6px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+#send-btn:hover {
+    background-color: var(--accent);
+    filter: brightness(1.1);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: var(--accent);
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease;
+    z-index: 1000;
+    font-size: 14px;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Code block styling */
+.message pre {
+    background-color: var(--input-bg);
+    border-radius: 6px;
+    padding: 12px;
+    margin: 10px 0;
+    overflow-x: auto;
+    position: relative;
+}
+
+.message code {
+    font-family: 'Söhne Mono', Monaco, 'Andale Mono', monospace;
+    font-size: 14px;
+}
+
+.hidden {
+    display: none !important;
+    animation: none !important;
+}
+
+#drag-handle {
+    cursor: move;
+    user-select: none;
+}
+
+#support-container.dragging {
+    transition: none;
+    opacity: 0.8;
+    transform: none !important;
+}
+
+/* Add these animation keyframes */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes scaleOut {
+    from {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+}
+
+/* Add fade-out animation for notifications */
+.notification.fade-out {
+    animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(20px); }
+}
+
+/* Add transition for dragging */
+#support-container {
+    /* ... existing styles ... */
+    transition: transform 0.1s ease, opacity 0.2s ease;
+}
+
+/* Improve input field */
+#user-input {
+    /* ... existing styles ... */
+    overflow-y: auto;
+    padding-right: 50px; /* Space for send button */
+}
+
+/* Add loading spinner for API calls */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    border-top-color: var(--accent);
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Add hover effect for messages */
+.message:hover {
+    filter: brightness(0.98);
+}
+
+/* Improve code block styling */
+.message pre {
+    /* ... existing styles ... */
+    position: relative;
+}
+
+.message pre code {
+    /* ... existing styles ... */
+    padding: 0;
+    background: none;
+}
+
+/* Add copy button for code blocks */
+.copy-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 8px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-size: 12px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.message pre:hover .copy-button {
+    opacity: 1;
+}
+
+.copy-button:hover {
+    background: var(--hover);
+}
+
+/* Add markdown styling */
+.message-content h1, 
+.message-content h2, 
+.message-content h3 {
+    margin: 1em 0 0.5em;
+    color: var(--text);
+}
+
+.message-content ul,
+.message-content ol {
+    margin: 0.5em 0;
+    padding-left: 1.5em;
+}
+
+.message-content li {
+    margin: 0.25em 0;
+}
+
+.message-content p {
+    margin: 0.75em 0;
+}
+
+.message-content code {
+    background: var(--input-bg);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+/* Add styles for message copy button */
+.message-actions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.message:hover .message-actions {
+    opacity: 1;
+}
+
+.message-copy-btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    padding: 4px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.message-copy-btn:hover {
+    background: var(--hover);
+}
+
+.message-copy-btn i {
+    font-size: 12px;
+}
+
+/* Add these styles at the end of the file */
+.quick-prompts {
+    padding: 12px 20px 16px 20px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    background-color: var(--bg);
+    border-top: 1px solid var(--border);
+    margin-top: -1px;
+}
+
+.quick-prompt-btn {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: var(--text);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.quick-prompt-btn:hover {
+    background-color: var(--hover);
+    border-color: var(--accent);
+}
+
+.quick-prompt-btn i {
+    color: var(--accent);
+    font-size: 12px;
+}
+
+/* Update input-container to remove bottom border */
+.input-container {
+    border-bottom: none;
+    padding-bottom: 12px;
+}
+
+/* Update the tooltip styles */
+.tooltip-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tooltip-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--bg);
+    color: var(--text);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border);
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.tooltip-btn:hover::after {
+    opacity: 1;
+    visibility: visible;
+    bottom: -25px; /* Slight adjustment on hover */
+}
+
+/* Update header actions buttons */
+.header-actions button {
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    padding: 6px;
+    font-size: 14px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    opacity: 0.8;
+    z-index: 10;
+}
+
+.header-actions button:hover {
+    background-color: var(--hover);
+    opacity: 1;
+} 

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Support</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="dark-mode">
+    <div id="support-container" class="hidden">
+        <div class="support-header">
+            <div class="header-title">
+                <i class="fas fa-robot"></i>
+                <span id="support-title">AI Support</span>
+            </div>
+            <div class="header-actions">
+                <button id="clear-chat-btn" class="tooltip-btn" data-tooltip="Clear Chat">
+                    <i class="fas fa-broom"></i>
+                </button>
+                <button id="clear-context-btn" class="tooltip-btn" data-tooltip="Clear Context">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <button id="theme-btn" class="tooltip-btn" data-tooltip="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="close-btn" class="tooltip-btn" data-tooltip="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="chat-container">
+            <div id="chat-messages"></div>
+        </div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+        <div class="quick-prompts">
+            <button class="quick-prompt-btn" data-prompt="report bug">
+                <i class="fas fa-bug"></i>
+                Report Bug
+            </button>
+            <button class="quick-prompt-btn" data-prompt="show rules">
+                <i class="fas fa-book"></i>
+                Server Rules
+            </button>
+            <button class="quick-prompt-btn" data-prompt="find hospital">
+                <i class="fas fa-hospital"></i>
+                Find Hospital
+            </button>
+            <button class="quick-prompt-btn" data-prompt="show commands">
+                <i class="fas fa-terminal"></i>
+                Commands
+            </button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
