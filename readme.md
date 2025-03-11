@@ -114,7 +114,7 @@ The system uses Google's Gemini API for natural language processing:
 MIT License - Feel free to modify and distribute as needed.
 
 ## Support
-For issues and feature requests, please use the GitHub issue tracker.
+Contact on Discord: m.talh4
 
 ## Credits
 - Google Gemini API for natural language processing
