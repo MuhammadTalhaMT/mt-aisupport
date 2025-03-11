@@ -323,7 +323,7 @@ end)
 
 function GetGeminiResponse(src, message, context, history)
     
-    local url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
+    local url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
     local headers = {
         ['Content-Type'] = 'application/json',
         ['x-goog-api-key'] = Config.GeminiApiKey
