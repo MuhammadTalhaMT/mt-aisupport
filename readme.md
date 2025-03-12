@@ -110,9 +110,6 @@ The system uses Google's Gemini API for natural language processing:
 - Google Gemini API key
 - Discord webhook (optional)
 
-## License
-MIT License - Feel free to modify and distribute as needed.
-
 ## Support
 Contact on Discord: m.talh4
 
